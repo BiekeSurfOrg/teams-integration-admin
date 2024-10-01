@@ -1,16 +1,45 @@
 {
+  "name": "teams-integration",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
-    "@azure/communication-calling": "^1.16.3",
-    "@azure/communication-common": "^2.2.1",
-    "express": "^4.21.0"
-  },
-  "devDependencies": {
-    "copy-webpack-plugin": "^11.0.0",
-    "webpack": "^5.88.2",
-    "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^4.15.1"
+    "@azure/communication-calling": "^1.28.4",
+    "@azure/communication-common": "^2.3.1",
+    "@azure/communication-react": "^1.19.0",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-scripts": "5.0.1",
+    "serve": "^14.2.3",
+    "axios": "^1.7.7",
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "npx webpack serve --config webpack.config.js"
+    "start": "serve -s build",
+    "start-dev-server": "react-scripts build start && serve -s build",
+    "start-dev": "react-scripts start",
+    "build": "react-scripts --max_old_space_size=1024 build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

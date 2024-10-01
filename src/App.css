@@ -1,0 +1,46 @@
+.App {
+  width: 99vw;
+  height: 99vh;
+  text-align: center;
+  display: grid;
+  place-items: center;
+}
+
+.kbc-style-button {
+  letter-spacing: 1px;
+  font-weight: bold;
+  font-size: 20px;
+  color: white;
+  border-style: none;
+  background-color: #0097db;
+  width: 306.8px;
+  border-radius: 30px;
+  height: 50px;
+}
+
+.video-container {
+  width: 500px;
+  height: 300px;
+}
+
+.buttons {
+  margin-top: 100px;
+  display: flex;
+  gap: 50px;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.video-container-holder {
+  display: flex;
+  gap: 50px;
+}
+
+.button-dissabled {
+  opacity: 50%;
+  pointer-events: none;
+}
