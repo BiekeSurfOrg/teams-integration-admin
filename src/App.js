@@ -1,6 +1,9 @@
 import './App.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+
+import teams_call_sound from "./microsoft_teams_call.mp3"
+
 const { CallClient, VideoStreamRenderer, LocalVideoStream } = require('@azure/communication-calling');
 const { AzureCommunicationTokenCredential } = require('@azure/communication-common');
 
@@ -17,6 +20,8 @@ let localVideoContainer;
 
 let USER_ACCESS_TOKEN_ADMIN = ""
 let USER_CALLE_ID = ""
+
+let audio;
 
 function App() {
 
@@ -40,6 +45,8 @@ function App() {
   useEffect(() => {
     remoteVideosGallery = document.getElementById('remoteVideosGallery');
     localVideoContainer = document.getElementById('localVideoContainer');
+    audio = new Audio(teams_call_sound);
+    audio.loop = true;
     init();
   }, []);
 
@@ -59,6 +66,7 @@ function App() {
         try {
           incomingCall = args.incomingCall;
           setIncomingCallDisabledButtonDissable(false);
+          audio.play();
         } catch (error) {
           console.error(error);
         }
@@ -86,6 +94,7 @@ function App() {
   const acceptCall = async () => {
     try {
       const localVideoStream = await createLocalVideoStream();
+      audio.pause()
       setIncomingCallDisabledButtonDissable(true);
       setEnableCamera(true)
       console.log(isIncomingCallDisabled, "accept call");
@@ -115,6 +124,7 @@ function App() {
         console.log(`Call state changed: ${call.state}`);
         if (call.state === 'Connected') {
         } else if (call.state === 'Disconnected') {
+          setIncomingCallDisabledButtonDissable(false)
           console.log(`Call ended, call end reason={code=${call.callEndReason.code}, subCode=${call.callEndReason.subCode}}`);
         }
       });
@@ -320,8 +330,9 @@ function App() {
       <div className='buttons'>
         <button className={isIncomingCallDisabled ? 'kbc-style-button button-dissabled' : 'kbc-style-button'} id="accept-call-button" type="button" onClick={() => acceptCall()} >Accept Call</button>
         <button className={!isIncomingCallDisabled ? 'kbc-style-button button-dissabled' : 'kbc-style-button'} id="hangup-call-button" type="button" onClick={() => hangUpVideoCall()} >Hang up Call</button>
-        <button className={isCameraEnabled ? 'kbc-style-button button-dissabled' : 'kbc-style-button'} id="start-video-button" type="button" onClick={() => startVideoInCall()}>Start Video</button>
-        <button className={!isCameraEnabled ? 'kbc-style-button button-dissabled' : 'kbc-style-button'} type="button" onClick={() => stopVideoInCall()}>Stop Video</button>
+
+        {!isIncomingCallDisabled ? <button className={isCameraEnabled ? 'kbc-style-button button-dissabled' : 'kbc-style-button'} id="start-video-button" type="button" onClick={() => startVideoInCall()}>Start Video</button> : ""}
+        {!isIncomingCallDisabled ? <button className={!isCameraEnabled ? 'kbc-style-button button-dissabled' : 'kbc-style-button'} type="button" onClick={() => stopVideoInCall()}>Stop Video</button> : ''}
       </div>
 
       <script src="./main.js"></script>
